@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resultnomad/constants/sizes.dart';
 import 'package:resultnomad/router.dart';
 
 void main() {
@@ -15,7 +16,23 @@ class NomadFlutter extends StatelessWidget {
       routerConfig: router,
       title: 'Nomad Flutter',
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white,
+        dialogBackgroundColor: Colors.white,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.black,
+        ),
+        splashColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            fontSize: Sizes.size16 + Sizes.size2,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
