@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
               pinned: false,
               expandedHeight: 50.0,
               title: Text(
-                "🔥Mood🔥",
+                "🔥 기분 일기 🔥",
                 style: TextStyle(
                   color: Colors.black,
                 ),
