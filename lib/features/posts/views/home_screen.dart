@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:resultnomad/features/posts/views/widgets/home_post.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,9 +22,10 @@ class HomeScreen extends StatelessWidget {
             const SliverAppBar(
               pinned: false,
               expandedHeight: 50.0,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Icon(
-                  FontAwesomeIcons.threads,
+              title: Text(
+                "🔥Mood🔥",
+                style: TextStyle(
+                  color: Colors.black,
                 ),
               ),
             ),
