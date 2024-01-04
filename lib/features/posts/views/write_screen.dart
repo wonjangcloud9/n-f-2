@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resultnomad/constants/gaps.dart';
 import 'package:resultnomad/constants/sizes.dart';
+import 'package:resultnomad/features/posts/view_models/upload_post_view_model.dart';
+import 'package:resultnomad/features/posts/views/widgets/mood_icon.dart';
 
-class WriteScreen extends StatefulWidget {
+class WriteScreen extends ConsumerStatefulWidget {
   const WriteScreen({super.key});
 
   @override
-  State<WriteScreen> createState() => _WriteScreenState();
+  WriteScreenState createState() => WriteScreenState();
 }
 
-class _WriteScreenState extends State<WriteScreen> {
+class WriteScreenState extends ConsumerState<WriteScreen> {
   final TextEditingController textController = TextEditingController();
+
+  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -32,6 +37,11 @@ class _WriteScreenState extends State<WriteScreen> {
   void dispose() {
     textController.dispose();
     super.dispose();
+  }
+
+  void onTap(int index) {
+    selectedIndex = index;
+    setState(() {});
   }
 
   @override
@@ -112,192 +122,74 @@ class _WriteScreenState extends State<WriteScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😀",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                    MoodIcon(
+                      onTap: () {
+                        onTap(0);
+                      },
+                      icon: "😊",
+                      selected: selectedIndex == 0,
                     ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😊",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                    MoodIcon(
+                      onTap: () {
+                        onTap(1);
+                      },
+                      icon: "😀",
+                      selected: selectedIndex == 1,
                     ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😐",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                    MoodIcon(
+                      onTap: () {
+                        onTap(2);
+                      },
+                      icon: "😐",
+                      selected: selectedIndex == 2,
                     ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😔",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                    MoodIcon(
+                      onTap: () {
+                        onTap(3);
+                      },
+                      icon: "😔",
+                      selected: selectedIndex == 3,
                     ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😭",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                    MoodIcon(
+                      onTap: () {
+                        onTap(4);
+                      },
+                      icon: "😭",
+                      selected: selectedIndex == 4,
                     ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😡",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.size4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "😱",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "🤬",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      ),
-                      child: const Text(
-                        "🤯",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ],
             ),
             Gaps.v20,
-            ElevatedButton(
-              onPressed: textController.text.isEmpty &&
-                      textController.text.length > 200
-                  ? null
-                  : () {},
-              child: const Text(
-                "기록하기",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (textController.text.isNotEmpty &&
+                    textController.text.length <= 200) {
+                  ref.read(uploadPostProvider.notifier).uploadPost(
+                        textController.text,
+                        selectedIndex,
+                        context,
+                      );
+                  Navigator.pop(context);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.size20,
+                  vertical: Sizes.size10,
+                ),
+                child: Text(
+                  "기록하기",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: textController.text.isEmpty ||
+                            textController.text.length > 200
+                        ? Colors.black
+                        : Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
