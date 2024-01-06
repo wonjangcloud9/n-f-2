@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resultnomad/constants/gaps.dart';
 import 'package:resultnomad/constants/sizes.dart';
+import 'package:resultnomad/features/posts/view_models/posts_view_model.dart';
 import 'package:resultnomad/features/posts/view_models/upload_post_view_model.dart';
 import 'package:resultnomad/features/posts/views/widgets/mood_icon.dart';
 
 class WriteScreen extends ConsumerStatefulWidget {
-  const WriteScreen({super.key});
+  final void Function(int index) onTapMain;
+
+  const WriteScreen({
+    super.key,
+    required this.onTapMain,
+  });
 
   @override
   WriteScreenState createState() => WriteScreenState();
@@ -39,9 +45,24 @@ class WriteScreenState extends ConsumerState<WriteScreen> {
     super.dispose();
   }
 
-  void onTap(int index) {
+  void onTap(int index) async {
     selectedIndex = index;
+    await ref.read(viewPostProvider.notifier).refresh();
     setState(() {});
+  }
+
+  void uploadPost() async {
+    if (textController.text.isNotEmpty && textController.text.length <= 200) {
+      await ref.read(uploadPostProvider.notifier).uploadPost(
+            textController.text,
+            selectedIndex,
+            context,
+          );
+      textController.clear();
+      selectedIndex = 0;
+      setState(() {});
+      widget.onTapMain(0);
+    }
   }
 
   @override
@@ -164,15 +185,7 @@ class WriteScreenState extends ConsumerState<WriteScreen> {
             Gaps.v20,
             GestureDetector(
               onTap: () {
-                if (textController.text.isNotEmpty &&
-                    textController.text.length <= 200) {
-                  ref.read(uploadPostProvider.notifier).uploadPost(
-                        textController.text,
-                        selectedIndex,
-                        context,
-                      );
-                  Navigator.pop(context);
-                }
+                uploadPost();
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(

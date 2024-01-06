@@ -8,6 +8,10 @@ class PostsRepository {
   Future<void> savePost(PostModel data) async {
     await _db.collection('moods').add(data.toJson());
   }
+
+  Future<QuerySnapshot> getPosts() async {
+    return await _db.collection('moods').get();
+  }
 }
 
 final postRepo = Provider((ref) => PostsRepository());

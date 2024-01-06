@@ -29,15 +29,6 @@ class UploadPostViewModel extends AsyncNotifier<void> {
         ),
       );
     });
-    if (state is AsyncError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("포스트 업로드에 실패했습니다."),
-        ),
-      );
-    } else {
-      Navigator.of(context).pop();
-    }
   }
 }
 

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:resultnomad/constants/sizes.dart';
 import 'package:resultnomad/features/main_navigation/views/widgets/nav_tab.dart';
 import 'package:resultnomad/features/posts/views/home_screen.dart';
 import 'package:resultnomad/features/posts/views/write_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  final String tab;
+
+  const MainNavigationScreen({
+    super.key,
+    required this.tab,
+  });
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -15,15 +21,23 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
 
-  final screens = [
-    const HomeScreen(),
-    const WriteScreen(),
-  ];
+  List screens = [];
 
-  void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  initState() {
+    super.initState();
+    screens = [
+      const HomeScreen(),
+      WriteScreen(
+        onTapMain: onTap,
+      ),
+    ];
+  }
+
+  void onTap(int index) {
+    context.go('/${index == 0 ? 'list' : 'write'}');
+    _selectedIndex = index;
+    setState(() {});
   }
 
   @override
@@ -58,14 +72,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 isSelected: _selectedIndex == 0,
                 icon: FontAwesomeIcons.house,
                 selectedIcon: FontAwesomeIcons.house,
-                onTap: () => _onTap(0),
+                onTap: () => onTap(0),
                 selectedIndex: _selectedIndex,
               ),
               NavTab(
                 isSelected: _selectedIndex == 1,
                 icon: FontAwesomeIcons.pen,
                 selectedIcon: FontAwesomeIcons.pencil,
-                onTap: () => _onTap(1),
+                onTap: () => onTap(1),
                 selectedIndex: _selectedIndex,
               ),
             ],
