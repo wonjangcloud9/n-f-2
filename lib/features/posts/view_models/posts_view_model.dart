@@ -41,6 +41,24 @@ class PostsViewModel extends AsyncNotifier<List<PostModel>> {
       return _list;
     });
   }
+
+  deletePost(String id) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      await _repository.deletePost(id);
+      final result = await _repository.getPosts();
+      final newList = result.docs
+          .map(
+            (doc) => PostModel.fromJson(
+              doc.data() as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+      _list.clear();
+      _list.addAll(newList);
+      return _list;
+    });
+  }
 }
 
 final viewPostProvider = AsyncNotifierProvider<PostsViewModel, List<PostModel>>(

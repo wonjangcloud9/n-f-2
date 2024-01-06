@@ -10,7 +10,17 @@ class PostsRepository {
   }
 
   Future<QuerySnapshot> getPosts() async {
-    return await _db.collection('moods').get();
+    return await _db
+        .collection('moods')
+        .orderBy(
+          'createdAt',
+          descending: true,
+        )
+        .get();
+  }
+
+  Future<void> deletePost(String id) async {
+    await _db.collection('moods').doc(id).delete();
   }
 }
 
