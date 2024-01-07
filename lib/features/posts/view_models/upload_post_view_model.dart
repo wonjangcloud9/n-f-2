@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resultnomad/features/posts/models/post_model.dart';
 import 'package:resultnomad/features/posts/repos/posts_repo.dart';
+import 'package:uuid/uuid.dart';
 
 class UploadPostViewModel extends AsyncNotifier<void> {
   late final PostsRepository _repository;
@@ -22,6 +23,7 @@ class UploadPostViewModel extends AsyncNotifier<void> {
     state = await AsyncValue.guard(() async {
       await _repository.savePost(
         PostModel(
+          id: const Uuid().v4(),
           description: descrition,
           mood: mood,
           createdAt: DateTime.now().microsecondsSinceEpoch,

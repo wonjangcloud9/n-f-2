@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resultnomad/constants/gaps.dart';
 import 'package:resultnomad/constants/sizes.dart';
 import 'package:resultnomad/features/posts/models/post_model.dart';
+import 'package:resultnomad/features/posts/view_models/posts_view_model.dart';
 
-class HomePost extends StatefulWidget {
+class HomePost extends ConsumerStatefulWidget {
   final int index;
   final PostModel postData;
 
@@ -14,10 +16,10 @@ class HomePost extends StatefulWidget {
   });
 
   @override
-  State<HomePost> createState() => _HomePostState();
+  HomePostState createState() => HomePostState();
 }
 
-class _HomePostState extends State<HomePost> {
+class HomePostState extends ConsumerState<HomePost> {
   String formatUploadDate(int date) {
     final uploadDate = DateTime.fromMicrosecondsSinceEpoch(date);
     return "${uploadDate.year}-${uploadDate.month.toString().padLeft(2, '0')}-${uploadDate.day.toString().padLeft(2, '0')} ${uploadDate.hour.toString().padLeft(2, '0')}:${uploadDate.minute.toString().padLeft(2, '0')}:${uploadDate.second.toString().padLeft(2, '0')}";
@@ -100,7 +102,32 @@ class _HomePostState extends State<HomePost> {
           right: Sizes.size36,
           child: GestureDetector(
             onTap: () {
-              // postRepo.read(context).deletePost(widget.postData.id);
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text("삭제"),
+                    content: const Text("정말 삭제하시겠습니까?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text("취소"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ref.read(viewPostProvider.notifier).deletePost(
+                                widget.postData.id,
+                              );
+                        },
+                        child: const Text("삭제"),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
             child: const Text(
               "❌",

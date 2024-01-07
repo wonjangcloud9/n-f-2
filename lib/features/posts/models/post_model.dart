@@ -1,10 +1,12 @@
 class PostModel {
+  final String id;
   final String description;
   final int mood;
   final int createdAt;
   final int updatedAt;
 
   PostModel({
+    required this.id,
     required this.description,
     required this.mood,
     required this.createdAt,
@@ -13,6 +15,7 @@ class PostModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'description': description,
       'mood': mood,
       'createdAt': createdAt,
@@ -22,6 +25,7 @@ class PostModel {
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
     return PostModel(
+      id: json['id'],
       description: json['description'],
       mood: json['mood'],
       createdAt: json['createdAt'],

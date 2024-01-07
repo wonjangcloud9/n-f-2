@@ -38,6 +38,18 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
+                    if (posts.isEmpty)
+                      const SliverToBoxAdapter(
+                        child: Center(
+                          child: Text(
+                            "데이터가 없습니다. 😂",
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     SliverList.builder(
                       itemCount: posts.length,
                       itemBuilder: (BuildContext context, int index) {
