@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:resultnomad/constants/gaps.dart';
 import 'package:resultnomad/constants/sizes.dart';
 import 'package:resultnomad/features/posts/models/post_model.dart';
-import 'package:resultnomad/features/posts/repos/posts_repo.dart';
 
 class HomePost extends StatefulWidget {
   final int index;

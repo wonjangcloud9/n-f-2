@@ -192,17 +192,30 @@ class WriteScreenState extends ConsumerState<WriteScreen> {
                   horizontal: Sizes.size20,
                   vertical: Sizes.size10,
                 ),
-                child: Text(
-                  "기록하기",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: Sizes.size10,
+                  ),
+                  decoration: BoxDecoration(
                     color: textController.text.isEmpty ||
                             textController.text.length > 200
-                        ? Colors.black
-                        : Colors.black54,
+                        ? Colors.grey[200]
+                        : Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  textAlign: TextAlign.center,
+                  child: Text(
+                    "기록하기",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: textController.text.isEmpty ||
+                              textController.text.length > 200
+                          ? Colors.grey[400]
+                          : Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
