@@ -116,11 +116,15 @@ class HomePostState extends ConsumerState<HomePost> {
                         child: const Text("취소"),
                       ),
                       TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          ref.read(viewPostProvider.notifier).deletePost(
-                                widget.postData.id,
-                              );
+                        onPressed: () async {
+                          if (mounted) {
+                            await ref
+                                .read(viewPostProvider.notifier)
+                                .deletePost(
+                                  widget.postData.id,
+                                );
+                          }
+                          if (context.mounted) Navigator.pop(context);
                         },
                         child: const Text("삭제"),
                       ),

@@ -20,7 +20,12 @@ class PostsRepository {
   }
 
   Future<void> deletePost(String id) async {
-    await _db.collection('moods').doc(id).delete();
+    final target =
+        await _db.collection("moods").where('id', isEqualTo: id).get();
+    _db.collection("moods").doc(target.docs[0].id).delete().then(
+          (doc) => print("Document deleted"),
+          onError: (e) => print("Error updating document $e"),
+        );
   }
 }
 
