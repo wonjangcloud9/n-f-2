@@ -62,6 +62,8 @@ class WriteScreenState extends ConsumerState<WriteScreen> {
       selectedIndex = 0;
       setState(() {});
       widget.onTapMain(0);
+
+      await ref.read(viewPostProvider.notifier).refresh();
     }
   }
 
