@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resultnomad/constants/gaps.dart';
 import 'package:resultnomad/constants/sizes.dart';
+import 'package:resultnomad/features/auth/repos/auth_repo.dart';
+import 'package:resultnomad/features/auth/views/login_screen.dart';
 import 'package:resultnomad/features/posts/view_models/posts_view_model.dart';
 import 'package:resultnomad/features/posts/view_models/upload_post_view_model.dart';
 import 'package:resultnomad/features/posts/views/widgets/mood_icon.dart';
@@ -52,7 +54,21 @@ class WriteScreenState extends ConsumerState<WriteScreen> {
   }
 
   void uploadPost() async {
+    final isLoggedIn = ref.read(authRepo).isLoggedIn;
+
     if (textController.text.isNotEmpty && textController.text.length <= 200) {
+      if (!isLoggedIn) {
+        showBottomSheet(
+          elevation: 10,
+          context: context,
+          builder: (context) => Container(
+            height: 500,
+            color: Colors.white,
+            child: const LoginScreen(),
+          ),
+        );
+        return;
+      }
       await ref.read(uploadPostProvider.notifier).uploadPost(
             textController.text,
             selectedIndex,

@@ -44,7 +44,7 @@ class FormButton extends StatelessWidget {
             color: disabled ? Colors.grey.shade400 : Colors.white,
           ),
           child: Text(
-            signUp ? "회원가입" : "Next",
+            signUp ? "회원가입" : "로그인",
             textAlign: TextAlign.center,
           ),
         ),

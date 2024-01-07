@@ -1,45 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resultnomad/constants/gaps.dart';
 import 'package:resultnomad/constants/sizes.dart';
-import 'package:resultnomad/features/auth/repos/auth_repo.dart';
 import 'package:resultnomad/features/auth/views/widgets/form_button.dart';
 
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  LoginScreenState createState() => LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class LoginScreenState extends ConsumerState<LoginScreen> {
-  final TextEditingController _passwordController = TextEditingController();
+class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  String _password = "";
+  String _username = "";
   String _email = "";
-
-  bool activeLogin = true;
 
   @override
   void initState() {
     super.initState();
-    _passwordController.addListener(() {
+    _usernameController.addListener(() {
       setState(() {
-        _password = _passwordController.text;
+        _username = _usernameController.text;
       });
     });
-
+    _usernameController.text = "wonjang";
     _emailController.addListener(() {
       setState(() {
         _email = _emailController.text;
       });
     });
+    _emailController.text = "wonjang@naver.com";
   }
 
   @override
   void dispose() {
-    _passwordController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -57,29 +54,14 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     return null;
   }
 
-  bool _isPasswordValid() {
-    return _password.isNotEmpty && _password.length >= 8;
-  }
-
   void _onScaffoldTap() {
     FocusScope.of(context).unfocus();
   }
 
   void _onNextTap() {
-    if (_password.isEmpty || !_isPasswordValid()) {
+    if (_username.isEmpty) {
       return;
     }
-    if (_email.isEmpty || _isEmailValid() != null) {
-      return;
-    }
-
-    if (activeLogin) {
-      ref.read(authRepo).signIn(_email, _password);
-    } else {
-      ref.read(authRepo).signUp(_email, _password);
-    }
-
-    Navigator.pop(context);
   }
 
   @override
@@ -87,7 +69,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Sizes.size96,
-        title: const Text("로그인"),
+        title: const Text("😃 기분일기 😂"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -96,6 +78,35 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                errorText: _username.isEmpty ? "이름을 입력해주세요." : null,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey.shade400,
+                  ),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.grey.shade400,
+                  ),
+                ),
+                labelText: "Name",
+                alignLabelWithHint: true,
+                suffix: _username.isNotEmpty
+                    ? GestureDetector(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.check_circle,
+                          size: Sizes.size24,
+                          color: Colors.green,
+                        ),
+                      )
+                    : null,
+              ),
+            ),
+            Gaps.v16,
             TextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
@@ -114,38 +125,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 alignLabelWithHint: true,
-                labelText: "이메일",
+                labelText: "Email",
                 suffix: _email.isNotEmpty && _isEmailValid() == null
-                    ? GestureDetector(
-                        onTap: () {},
-                        child: const Icon(
-                          Icons.check_circle,
-                          size: Sizes.size24,
-                          color: Colors.green,
-                        ),
-                      )
-                    : null,
-              ),
-            ),
-            Gaps.v16,
-            TextField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration: InputDecoration(
-                errorText: _password.isEmpty ? "비밀번호를 입력해주세요." : null,
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                labelText: "비밀번호",
-                alignLabelWithHint: true,
-                suffix: _password.isNotEmpty && _isPasswordValid()
                     ? GestureDetector(
                         onTap: () {},
                         child: const Icon(
@@ -164,25 +145,10 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                 alignment: Alignment.centerRight,
                 child: FormButton(
                   big: true,
-                  disabled: _password.isEmpty ||
-                      !_isPasswordValid() ||
+                  disabled: _username.isEmpty ||
                       _isEmailValid() != null ||
                       _email.isEmpty,
-                  signUp: !activeLogin,
-                ),
-              ),
-            ),
-            Gaps.v16,
-            GestureDetector(
-              onTap: () {
-                activeLogin = !activeLogin;
-                setState(() {});
-              },
-              child: Text(
-                activeLogin ? "회원가입" : "로그인",
-                style: const TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
+                  signUp: true,
                 ),
               ),
             ),

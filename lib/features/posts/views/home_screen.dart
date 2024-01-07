@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:resultnomad/features/auth/repos/auth_repo.dart';
 import 'package:resultnomad/features/posts/view_models/posts_view_model.dart';
 import 'package:resultnomad/features/posts/views/widgets/home_post.dart';
 
@@ -15,6 +16,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     return ref.watch(viewPostProvider).when(
           data: (posts) {
+            final isLoggedIn = ref.read(authRepo).isLoggedIn;
             return Scaffold(
               body: RefreshIndicator(
                 onRefresh: () async {
@@ -28,38 +30,64 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                 edgeOffset: 20,
                 child: CustomScrollView(
                   slivers: <Widget>[
-                    const SliverAppBar(
+                    SliverAppBar(
                       pinned: false,
                       expandedHeight: 50.0,
-                      title: Text(
+                      title: const Text(
                         "🔥 기분 일기 🔥",
                         style: TextStyle(
                           color: Colors.black,
                         ),
                       ),
+                      leading: isLoggedIn
+                          ? IconButton(
+                              icon: const Icon(
+                                Icons.logout,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                ref.read(authRepo).signOut();
+                                ref.read(viewPostProvider.notifier).refresh();
+                              },
+                            )
+                          : null,
                     ),
-                    if (posts.isEmpty)
+                    if (!isLoggedIn)
                       const SliverToBoxAdapter(
                         child: Center(
                           child: Text(
-                            "데이터가 없습니다. 😂",
+                            "로그인이 필요합니다. 😂",
                             style: TextStyle(
-                              fontSize: 32,
+                              fontSize: 25,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                    SliverList.builder(
-                      itemCount: posts.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final postData = posts[index];
-                        return HomePost(
-                          index: index,
-                          postData: postData,
-                        );
-                      },
-                    ),
+                    if (isLoggedIn)
+                      if (posts.isEmpty)
+                        const SliverToBoxAdapter(
+                          child: Center(
+                            child: Text(
+                              "데이터가 없습니다. 😂",
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                    if (isLoggedIn)
+                      SliverList.builder(
+                        itemCount: posts.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final postData = posts[index];
+                          return HomePost(
+                            index: index,
+                            postData: postData,
+                          );
+                        },
+                      ),
                   ],
                 ),
               ),
